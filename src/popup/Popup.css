@@ -10,6 +10,15 @@ body {
   }
 }
 
+select {
+  width: 175px;
+  margin-top: 15px;
+  padding: 8px;
+  border-radius: 20px;
+  background-color: #16A180;
+  color: whitesmoke
+}
+
 main {
   text-align: center;
   padding: 1em;
