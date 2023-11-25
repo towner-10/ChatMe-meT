@@ -8,9 +8,11 @@ export const Gallery = ({ images }: {
             {images && images.map((image) => (
                 <GalleryImg image={image} />
             ))}
-            {!images &&
+            {images.length === 0 &&
                 <p>¯\_(ツ)_/¯</p>
             }
         </div>
     );
 };
+
+export default Gallery;

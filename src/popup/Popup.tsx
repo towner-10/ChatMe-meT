@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import Gallery from './Gallery';
 import logoAlt from '../assets/logo.png'
 
 import './Popup.css'
@@ -11,7 +11,7 @@ export const Popup = () => {
         <h1>ChatMe–meT</h1>
       </div>
       <label>Add the perfect meme response to your clipboard</label>
-      <div className="gallery"></div>
+      <Gallery images={[]}/>
     </main>
   )
 }
