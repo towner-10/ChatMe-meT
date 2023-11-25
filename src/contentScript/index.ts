@@ -11,7 +11,19 @@ const observer = new MutationObserver((mutations) => {
         if (node.matches(messageClassSelector)) {
           const message = node.querySelector(messageContentSubstringSelector)
           if (message) {
-            console.info(message)
+            // Get all span elements from message
+            const spans = message.querySelectorAll('span')
+
+            // Get all text from spans
+            const text = Array.from(spans)
+              .map((span) => span.innerText)
+              .join('')
+              .replace(/\s+/g, ' ')
+              .replace('(edited)', '')
+            // Send message to background script
+            console.info({ type: 'MESSAGE', message: text })
+
+            chrome.runtime.sendMessage({ type: 'MESSAGE', message: text })
           }
         }
       }
