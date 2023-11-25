@@ -19,14 +19,14 @@ async function createAssistants() {
   keywordsAssistant = await openai.beta.assistants.create({
     name: 'keywords-assistant',
     instructions:
-      'your job is to take in a set set of messages between 2 users and provide me a few keywords to describe the context of the conversation ',
+      'your job is to take in a set set of messages between 2 users and provide me a nothing but a a max of 10 words that provide me with a search term to find relevant memes, always make sure the word meme is at the end',
     tools: [{ type: 'code_interpreter' }],
-    model: 'gpt-3.5-turbo-1106',
+    model: 'gpt-4',
   })
   searchAssistant = await openai.beta.assistants.create({
     name: 'search-assistant',
     instructions:
-      'given a set of 6 keywords representing the context of a conversation, give me the search prompt to plug into Bing\'s AI image search API to get relevant memes. Include only the keywords in your response.',
+      'Given a set of keywords, give me nothing but the single best search prompt that will return the best relevant memes, do not say anything other than the search prompt',
     tools: [{ type: 'code_interpreter' }],
     model: 'gpt-3.5-turbo-1106',
   })
@@ -52,7 +52,6 @@ async function analyzeContext(messages: Message[]) {
     if (keywordsAssistant) {
       const run = await openai.beta.threads.runs.create(thread.id, {
         assistant_id: keywordsAssistant.id,
-        instructions: 'Provide me a few keywords to describe the context of the conversation',
       })
 
       let status = await openai.beta.threads.runs.retrieve(thread.id, run.id)
@@ -121,14 +120,16 @@ export async function updateContext(message: Message): Promise<void> {
   console.log('context updated')
 
   context.unshift(message)
-  while (context.length > 50) {
+  while (context.length > 10) {
     console.log('context popped')
     context.pop()
   }
-  context.reverse()
+  console.log("Context: ",context)
 }
 
 export async function getMemeSearchTerm() {
   const keywords = await analyzeContext(context)
-  return await getSearchTerm(keywords)
+  console.log("keywords are: ", keywords )
+  return keywords
+  //return await getSearchTerm(keywords)
 }
