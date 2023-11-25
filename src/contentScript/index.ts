@@ -55,6 +55,9 @@ const observer = new MutationObserver((mutations) => {
             messageContent.accessories = srcs
           }
 
+          // Don't send empty messages
+          if (messageContent.message === '') return
+
           console.info(messageContent)
 
           // Send message to background script
