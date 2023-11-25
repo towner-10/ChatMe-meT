@@ -1,6 +1,7 @@
 console.info('contentScript is running')
 
 const messageClassSelector = '.messageListItem__6a4fb'
+const messageUsername = 'span[id^="message-username-"]'
 const messageContentSubstringSelector = 'div[id^="message-content-"]'
 const messageAccessoriesSelector = 'div[id^="message-accessories-"]'
 
@@ -10,8 +11,32 @@ const observer = new MutationObserver((mutations) => {
     mutation.addedNodes.forEach((node) => {
       if (node instanceof HTMLElement) {
         if (node.matches(messageClassSelector)) {
+          const username = node.querySelector(messageUsername)
           const message = node.querySelector(messageContentSubstringSelector)
           const accessories = node.querySelector(messageAccessoriesSelector)
+
+          let messageContent: {
+            type: string
+            username: string
+            message: string
+            accessories: string[]
+          } = {
+            type: 'MESSAGE',
+            username: '',
+            message: '',
+            accessories: [],
+          }
+
+          if (username) {
+            // Get all span elements from username
+            const span = username.querySelector('span')
+
+            if (span) {
+              // Get all text from span
+              const text = span.innerText
+              messageContent.username = text
+            }
+          }
           if (message) {
             // Get all span elements from message
             const spans = message.querySelectorAll('span')
@@ -22,10 +47,7 @@ const observer = new MutationObserver((mutations) => {
               .join('')
               .replace(/\s+/g, ' ')
               .replace('(edited)', '')
-            // Send message to background script
-            console.info({ type: 'MESSAGE', message: text, dom: message })
-
-            chrome.runtime.sendMessage({ type: 'MESSAGE', message: text })
+            messageContent.message = text
           }
           if (accessories) {
             // Get all img elements from message
@@ -33,12 +55,13 @@ const observer = new MutationObserver((mutations) => {
 
             // Get all src from imgs
             const srcs = Array.from(imgs).map((img) => img.src)
-
-            if (srcs.length > 0) {
-              // Send message to background script
-              console.info({ type: 'IMAGE', sources: srcs, dom: accessories })
-            }
+            messageContent.accessories = srcs
           }
+
+          console.info(messageContent)
+
+          // Send message to background script
+          chrome.runtime.sendMessage(messageContent)
         }
       }
     })
