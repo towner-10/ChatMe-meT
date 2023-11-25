@@ -40,18 +40,16 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: 200px;
-  grid-gap: 15px;
+  grid-gap: 5px;
   margin-top: 15px;
 }
 
 .gallery .img-wrapper {
-  width: 100px;
-  padding-bottom: 100px;
-  position: relative;
+  width: 95px;
+  height: 95px;
 }
 
 .gallery img {
-  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
