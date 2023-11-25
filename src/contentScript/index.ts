@@ -2,6 +2,7 @@ console.info('contentScript is running')
 
 const messageClassSelector = '.messageListItem__6a4fb'
 const messageContentSubstringSelector = 'div[id^="message-content-"]'
+const messageAccessoriesSelector = 'div[id^="message-accessories-"]'
 
 // Read content from discord chat and send it to background script
 const observer = new MutationObserver((mutations) => {
@@ -10,6 +11,7 @@ const observer = new MutationObserver((mutations) => {
       if (node instanceof HTMLElement) {
         if (node.matches(messageClassSelector)) {
           const message = node.querySelector(messageContentSubstringSelector)
+          const accessories = node.querySelector(messageAccessoriesSelector)
           if (message) {
             // Get all span elements from message
             const spans = message.querySelectorAll('span')
@@ -21,9 +23,21 @@ const observer = new MutationObserver((mutations) => {
               .replace(/\s+/g, ' ')
               .replace('(edited)', '')
             // Send message to background script
-            console.info({ type: 'MESSAGE', message: text })
+            console.info({ type: 'MESSAGE', message: text, dom: message })
 
             chrome.runtime.sendMessage({ type: 'MESSAGE', message: text })
+          }
+          if (accessories) {
+            // Get all img elements from message
+            const imgs = accessories.querySelectorAll('img')
+
+            // Get all src from imgs
+            const srcs = Array.from(imgs).map((img) => img.src)
+
+            if (srcs.length > 0) {
+              // Send message to background script
+              console.info({ type: 'IMAGE', sources: srcs, dom: accessories })
+            }
           }
         }
       }
