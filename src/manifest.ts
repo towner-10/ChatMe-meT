@@ -1,10 +1,9 @@
 import { defineManifest } from '@crxjs/vite-plugin'
-import packageData from '../package.json'
 
 export default defineManifest({
-  name: packageData.name,
-  description: packageData.description,
-  version: packageData.version,
+  name: 'ChatMe-meT',
+  description: 'An extension to generate memes from chat messages.',
+  version: '0.0.1',
   manifest_version: 3,
   icons: {
     16: 'img/logo-16.png',
@@ -12,12 +11,12 @@ export default defineManifest({
     48: 'img/logo-48.png',
     128: 'img/logo-128.png',
   },
+  chrome_url_overrides: {},
   action: {
     default_popup: 'popup.html',
     default_icon: 'img/logo-48.png',
   },
   options_page: 'options.html',
-  devtools_page: 'devtools.html',
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',
@@ -37,8 +36,5 @@ export default defineManifest({
       matches: [],
     },
   ],
-  permissions: ['sidePanel', 'storage'],
-  chrome_url_overrides: {
-    newtab: 'newtab.html',
-  },
+  permissions: ['sidePanel', 'storage', 'scripting'],
 })
