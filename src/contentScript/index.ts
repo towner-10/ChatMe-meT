@@ -1,3 +1,5 @@
+import { Message } from '../types/message'
+
 console.info('contentScript is running')
 
 const messageClassSelector = '.messageListItem__6a4fb'
@@ -15,12 +17,7 @@ const observer = new MutationObserver((mutations) => {
           const message = node.querySelector(messageContentSubstringSelector)
           const accessories = node.querySelector(messageAccessoriesSelector)
 
-          let messageContent: {
-            type: string
-            username: string
-            message: string
-            accessories: string[]
-          } = {
+          let messageContent: Message = {
             type: 'MESSAGE',
             username: '',
             message: '',
