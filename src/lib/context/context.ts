@@ -19,7 +19,7 @@ async function createAssistants() {
   keywordsAssistant = await openai.beta.assistants.create({
     name: 'keywords-assistant',
     instructions:
-      'your job is to take in a set set of messages between 2 users and provide me a nothing but a a max of 10 words that provide me with a search term to find relevant memes, always make sure the word meme is at the end',
+      'Your job is to take in a set set of messages between 2 users and generate meme keywords for an image search to look for meme images. Output in the following format: "keywords"',
     tools: [{ type: 'code_interpreter' }],
     model: 'gpt-4',
   })
@@ -65,7 +65,7 @@ async function analyzeContext(messages: Message[]) {
             const messageTextContent = messages.data[0]['content'][0] as MessageContentText
 
             clearInterval(statusChecker)
-            resolve(messageTextContent.text.value)
+            resolve(messageTextContent.text.value.replace('"', ''))
           }
         }, 1000)
       })
@@ -124,12 +124,12 @@ export async function updateContext(message: Message): Promise<void> {
     console.log('context popped')
     context.pop()
   }
-  console.log("Context: ",context)
+  console.log('Context: ', context)
 }
 
 export async function getMemeSearchTerm() {
   const keywords = await analyzeContext(context)
-  console.log("keywords are: ", keywords )
+  console.log('keywords are: ', keywords)
   return keywords
   //return await getSearchTerm(keywords)
 }
