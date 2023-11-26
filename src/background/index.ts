@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(async (request) => {
     }
 
     console.log('searchTerms is ', searchTerms)
-    const images = await search(searchTerms as string, 9)
+    const images = await search(searchTerms as string, 10)
     console.log(images)
 
     chrome.runtime.sendMessage({ type: 'SEARCH', images })

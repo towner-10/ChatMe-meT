@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import Gallery from './Gallery';
-import logo from '../assets/logo.png';
+import { useState } from 'react'
+import Gallery from './Gallery'
+import logo from '../assets/logo.png'
 
 import './Popup.css'
 import { ImageSearchResult } from '../lib/imageSearch/bing'
@@ -9,8 +9,8 @@ export const Popup = () => {
   const [genre, setGenre] = useState('')
   const [memes, setMemes] = useState<string[]>([])
 
-  const createGallery = () => {
-    chrome.runtime.sendMessage({ type: 'SEARCH', genre })
+  const createGallery = (currentGenre: string) => {
+    chrome.runtime.sendMessage({ type: 'SEARCH', genre: currentGenre })
     setMemes([])
 
     const onMessage = (request: any) => {
@@ -29,16 +29,18 @@ export const Popup = () => {
     <main className="centered">
       <div className="header">
         <img width="12%" src={logo} />
-        <h1>ChatMe–meT</h1>
+        <h1>ChatMe-meT</h1>
       </div>
       <label>Add the perfect meme response to your clipboard</label>
       <select
         onChange={(e) => {
           setGenre(e.target.value)
-          createGallery()
+          createGallery(e.target.value)
         }}
       >
-        <option disabled selected className="disabled">Select a meme genre</option>
+        <option disabled selected className="disabled">
+          Select a meme genre
+        </option>
         <option value="Any">Any</option>
         <option value="Facebook Mom">Facebook Mom</option>
         <option value="Dank">Dank</option>
