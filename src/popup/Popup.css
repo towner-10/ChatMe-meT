@@ -47,15 +47,15 @@ h3 {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   height: 200px;
   grid-gap: 5px;
   margin-top: 15px;
 }
 
 .gallery .img-wrapper {
-  width: 95px;
-  height: 95px;
+  width: 146px;
+  height: 146px;
 }
 
 .gallery img {
