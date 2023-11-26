@@ -26,6 +26,21 @@ chrome.runtime.onMessage.addListener(async (request) => {
       searchTerms += ' meme'
     }
 
+    // Add genre-specific search terms
+    const genre = request.genre
+
+    if (genre === "Facebook Mom") {
+      searchTerms += 'facebook mom minions, 2010'
+    } else if (genre === "Dank") {
+      searchTerms += 'dank high contrast deep fried'
+    } else if (genre === "Surrealist") {
+      searchTerms += 'surrealist surreal'
+    } else if (genre === "Wholesome") {
+      searchTerms += 'wholesome cute'
+    } else if (genre === "Reddit") {
+      searchTerms += 'reddit shitposting r/memes'
+    }
+
     console.log('searchTerms is ', searchTerms)
     const images = await search(searchTerms as string, 10)
     console.log(images)
