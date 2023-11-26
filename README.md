@@ -1,6 +1,8 @@
-# ![Banner](/assets/banner.png)
+<h1 align="center">ChatMe-meT</h1>
 
-## Inspiration–“💀” “that’s crazy” “lmao” just say you’re not funny.
+![Banner](/assets/banner.png)
+
+## Inspiration–“💀” “that’s crazy” “lmao” just say you’re not funny
 
 The group chat is firing up. Messages are flying at Mach 3. Before you know it, a meme war has ensued, and you have no good response in your arsenal. Lucky for you, ChatMe-meT does.
 
@@ -15,9 +17,9 @@ The group chat is firing up. Messages are flying at Mach 3. Before you know it, 
 run the command
 
 ```shell
-$ cd chatme-met
+cd chatme-met
 
-$ npm run dev
+npm run dev
 ```
 
 ### Chrome Extension Developer Mode
