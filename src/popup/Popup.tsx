@@ -10,7 +10,7 @@ export const Popup = () => {
   const [memes, setMemes] = useState([])
 
   const createGallery = () => {
-    chrome.runtime.sendMessage({ type: 'SEARCH' })
+    chrome.runtime.sendMessage({ type: 'SEARCH', genre })
     setMemes([])
 
     const onMessage = (request: any) => {
@@ -39,11 +39,12 @@ export const Popup = () => {
         }}
       >
         <option className="disabled">Select a meme genre</option>
+        <option value="Any">Any</option>
         <option value="Facebook Mom">Facebook Mom</option>
         <option value="Dank">Dank</option>
         <option value="Surrealist">Surrealist</option>
         <option value="Wholesome">Wholesome</option>
-        <option value="Redditor">Redditor</option>
+        <option value="Reddit">Redditor</option>
       </select>
       {genre !== '' && <Gallery images={memes} />}
     </main>

@@ -11,11 +11,19 @@ chrome.runtime.onMessage.addListener(async (request) => {
     updateContext(request)
   } else if (request.type === 'SEARCH') {
     console.log('background has received a message from contentScript')
-    const searchTerms = await getMemeSearchTerm()
+    let searchTerms = await getMemeSearchTerm()
 
     if (!searchTerms) {
       console.log('searchTerms is null')
       return
+    }
+
+    // Check for meme
+    const memeRegex = /meme/i
+
+    if (!memeRegex.test(searchTerms)) {
+      console.log('searchTerms does not contain meme')
+      searchTerms += ' meme'
     }
 
     console.log('searchTerms is ', searchTerms)
